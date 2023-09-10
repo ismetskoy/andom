@@ -6,7 +6,7 @@ bot = TeleBot(config.token)
 
 @bot.message_handler(commands=['start']) 
 def start(message):
-    teq = 'Вжух' 
+    teq = '' 
     keyboard = types.InlineKeyboardMarkup();
     key_yes = types.InlineKeyboardButton(text='Да', callback_data='yes'); 
     keyboard.add(key_yes);
@@ -38,15 +38,21 @@ def callback_worker(call):
     elif call.data == "more":
         bot.send_message(call.from_user.id, 'На сегодня хватит, сладкий 💋');
 
-@bot.inline_handler(lambda query: len(query.query) > 0)
+@bot.inline_handler(lambda query: query.query == '')
 def query_text(query):
     try:
-        number = random.randint(0, 100)
-        r = telebot.types.InlineQueryResultArticle('1', '😉 Узнай свой шанс на увольнение', telebot.types.InputTextMessageContent('На ,  ' f'{number}%' ' ты уволен 😉 '))
-        w = telebot.types.InlineQueryResultArticle('2', '🤩 На сколько ты Мезенцев ?', telebot.types.InputTextMessageContent('Вжух , и на ' f'{number}%' ' ты Мезенцев 🤩'))
-        x = telebot.types.InlineQueryResultArticle('3', '🧚 Я Фея', telebot.types.InputTextMessageContent('На ,  ' f'{number}%' ' фея 🥰 ')) 
-        bot.answer_inline_query(query.id, [r , w , x])
+        qwe = ''
+        button = types.InlineKeyboardButton(text='Поделись 🍭', switch_inline_query=qwe)
+        keyboard = telebot.types.InlineKeyboardMarkup().add(button)
+        number_0 = random.randint(0, 100)
+        number_1 = random.randint(0, 100)
+        number_2 = random.randint(0, 100)
+        r = telebot.types.InlineQueryResultArticle('1', '😉 Узнай свой шанс на увольнение', telebot.types.InputTextMessageContent('Шанс на увольнение -  ' f'{number_0}%' ' 😉 '),reply_markup=keyboard,thumbnail_url='https://img.icons8.com/?size=64&id=P9iy9QbkXKL7&format=png',description='Шанс и шанс')
+        w = telebot.types.InlineQueryResultArticle('2_', '🤩 На сколько ты Мезенцев ?', telebot.types.InputTextMessageContent('Вжух ... и на - ' f'{number_1}%' ' ты Мезенцев 🤩 '),reply_markup=keyboard, thumbnail_url='https://img.icons8.com/?size=96&id=60277&format=png',description='Рискни и удача тебе улыбнется :)')
+        x = telebot.types.InlineQueryResultArticle('3', ' 🧚 На сколько ты Фея ?', telebot.types.InputTextMessageContent('На - ' f'{number_2}%' ' ты фея 🥰 '),reply_markup=keyboard, thumbnail_url='https://img.icons8.com/?size=96&id=45524&format=png',description='А вдруг')
+        bot.answer_inline_query(query.id, [r, w, x] , cache_time=0)
+
     except Exception as e:
         print(e)
-
+        
 bot.polling()

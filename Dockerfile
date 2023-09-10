@@ -11,5 +11,5 @@ COPY app /app
 WORKDIR /app
 
 # Запуск Приложения
-CMD python /app/andom.py & tail -f /dev/null
+CMD python /app/andom.py
 
