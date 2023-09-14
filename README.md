@@ -1,3 +1,3 @@
-<li># Bot for fun)) - @howMZbot </li>
+# Bot for fun)) - @howMZbot
 <br>
-<li><img src="https://github.com/blackcater/blackcater/raw/main/images/Hi.gif" height="24"/></li>
+<li><img src="https://github.com/ismetskoy/andom/blob/main/2.JPG?raw=true" height="24"/></li>
