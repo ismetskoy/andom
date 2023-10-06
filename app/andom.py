@@ -21,6 +21,7 @@ def callback_worker(call):
     if call.data == "yes": 
         
         number = random.randint(0, 100)
+        
         bot.send_message(call.from_user.id, 'А ты смелый. Ну что же, Стартуем .... 💨 ');
         bot.send_message(call.from_user.id, '1...');
         time.sleep(1)
@@ -42,15 +43,21 @@ def callback_worker(call):
 @bot.inline_handler(lambda query: query.query == '')
 def query_text(query):
     try:
-        #Поиск цитат из .txt
+        
         with open('cet.txt', 'r', encoding='utf-8', errors='ignore') as file:
             quotes = file.readlines()
         random_quote = random.choice(quotes)
-        #Поиск цитат из .json
+
         with open('url.json', 'r') as file:
-            data = json.load(file)
-            photo_urls = data['urls']
-        random_photo_url = random.choice(photo_urls) 
+            photo_data = json.load(file)
+            photo_urls = photo_data['urls']
+        random_photo_url = random.choice(photo_urls)
+
+        with open('video.json', 'r') as file:
+            video_data = json.load(file)
+            video_urls = video_data['video_links']  
+        random_video = random.choice(video_urls)
+        
         #Выбор чата
         search = ''
         #Кнопка поделиться 
@@ -62,6 +69,7 @@ def query_text(query):
         number_2 = random.randint(1, 30)
         
         url_0 = 'https://www.meme-arsenal.com/memes/81e181cffa2315158ea5ee67c0daf8fb.jpg'
+        
         #Меню инлайта
 
         r = telebot.types.InlineQueryResultArticle(
@@ -95,20 +103,28 @@ def query_text(query):
             thumbnail_url='https://www.meme-arsenal.com/memes/81e181cffa2315158ea5ee67c0daf8fb.jpg', 
             description='Рискни и удача тебе улыбнется 😉')
         
-        mem = types.InlineQueryResultArticle(
+        mem = telebot.types.InlineQueryResultArticle(
             id='5',
-            title='Мемчик на денёк',
+            title='👾 Мемчик на денёк',
             description='Мемчик на денёк, чтоб стоял дружок',
             input_message_content=types.InputTextMessageContent(
             message_text= 'Мемчик на Денёк' f'<a href="{random_photo_url}"> 👾 </a>', parse_mode='HTML'),
             reply_markup=keyboard,
             thumbnail_url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOJvLjnLet-U873MdMENaGSWv6VSj39jJ_HA&usqp=CAU')
-            
-        bot.answer_inline_query(query.id, [r, mem, x, e , w], cache_time=0)
+        
+        video_mem = telebot.types.InlineQueryResultArticle(
+            id='6',
+            title='👻 Видео на денёк',
+            description='Видео на денёк, чтоб не старел дружок',
+            input_message_content=types.InputTextMessageContent(
+            message_text= 'Видео на Денёк' f'<a href="{random_video}"> 👻 </a>', parse_mode='HTML'),
+            reply_markup=keyboard,
+            thumbnail_url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6rbEoNz0FVp0OAkDztfXopbAIz0JCD746aA&usqp=CAU')
+        
+        
+        bot.answer_inline_query(query.id, [x, mem, video_mem, e , w , r], cache_time=0)
 
-    
     except Exception as e:
         print(e)
 
 bot.polling()
-        
